@@ -2,8 +2,6 @@
  * https://material-ui.com/customization/color/#color-palette
  */
 
-import { darken, lighten } from 'polished';
-
 export const colors = Object.freeze({
   white: '#ffffff',
   black: '#000000',
@@ -300,47 +298,4 @@ export const colors = Object.freeze({
   blueGrey700: '#455a64',
   blueGrey800: '#37474f',
   blueGrey900: '#263238'
-});
-
-export const themeColors = {
-  highlight: '#EDF8FF',
-  darkBlue: '#05152E',
-
-  primary: '#2A54C4',
-  primaryLigth: lighten(0.15, '#2A54C4'),
-  primaryDark: darken(0.15, '#2A54C4'),
-
-  secondary: '#3454C4',
-  secondaryLigth: lighten(0.15, '#3454C4'),
-  secondaryDark: darken(0.15, '#3454C4'),
-
-  error: colors.red300,
-  errorLigth: colors.red200,
-  errorDark: colors.red400,
-
-  warning: colors.yellow,
-  warningLigth: colors.yellow300,
-  warningDark: colors.yellow700,
-
-  info: colors.blue,
-  infoLigth: colors.blue300,
-  infoDark: colors.blue700,
-
-  success: colors.green,
-  successLigth: colors.green300,
-  successDark: colors.green700
-};
-
-export const opacity = Object.freeze({
-  100: 'ff',
-  90: 'e5',
-  80: 'cc',
-  70: 'b2',
-  60: '99',
-  50: '7f',
-  40: '65',
-  30: '4c',
-  20: '32',
-  10: '19',
-  0: '00'
 });
