@@ -28,6 +28,7 @@
     "react/prop-types": "off",
     "consistent-return": "off",
     "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
 
     // React absolute imports
     "import/no-unresolved": "off",
