@@ -25,6 +25,12 @@
     "import/prefer-default-export": "off",
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
+    "react/prop-types": "off",
+    "consistent-return": "off",
+    "react/jsx-props-no-spreading": "off",
+
+    // React absolute imports
+    "import/no-unresolved": "off",
 
     // React import
     "no-use-before-define": "off",
