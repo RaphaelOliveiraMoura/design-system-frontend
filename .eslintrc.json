@@ -30,6 +30,7 @@
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "no-continue": "off",
+    "no-shadow": "off",
 
     // React absolute imports
     "import/no-unresolved": "off",
