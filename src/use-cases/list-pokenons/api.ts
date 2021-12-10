@@ -1,5 +1,5 @@
 import { Pokemon } from 'models';
-import { httpRequest } from 'services/api';
+import { httpRequest } from 'services/http';
 import { ListPokemons } from './types';
 
 type HttpPokemon = {
@@ -10,6 +10,7 @@ type HttpPokemon = {
 type HttpResult = {
   count: number;
   next: string;
+  previous?: string;
   results: HttpPokemon[];
 };
 
