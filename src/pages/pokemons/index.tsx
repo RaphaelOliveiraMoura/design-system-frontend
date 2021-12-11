@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { PaginationParams, Pokemon } from 'models';
+import { Pagination } from 'components';
 
 import { listPokemons } from 'use-cases/list-pokenons';
 
@@ -42,6 +43,7 @@ export const PokemonsPage: React.FC = () => {
           <h1>{pokemon.name}</h1>
         </section>
       ))}
+      <Pagination itemsPerPage={10} totalItems={100} />
     </S.Container>
   );
 };
