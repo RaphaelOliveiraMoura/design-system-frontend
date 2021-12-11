@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { PaginationParams, Pokemon } from 'models';
+import { Pagination as PaginationModel, Pokemon } from 'models';
 import { Pagination } from 'components';
 
 import { listPokemons } from 'use-cases/list-pokenons';
@@ -12,17 +12,19 @@ export const PokemonsPage: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const [pagination] = useState<PaginationParams>({
+  const [pagination, setPagination] = useState<PaginationModel>({
     page: 1,
-    itemsPerPage: 10
+    itemsPerPage: 10,
+    total: 0
   });
 
   useEffect(() => {
     const fetch = async () => {
       try {
         setLoading(true);
-        const pokemonsList = await listPokemons(pagination);
-        setPokemons(pokemonsList);
+        const { pokemons, total } = await listPokemons(pagination);
+        setPokemons(pokemons);
+        setPagination(state => ({ ...state, total }));
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -32,7 +34,7 @@ export const PokemonsPage: React.FC = () => {
     };
 
     fetch();
-  }, []);
+  }, [pagination.page]);
 
   if (loading) return <span>Carregando ...</span>;
 
@@ -43,7 +45,12 @@ export const PokemonsPage: React.FC = () => {
           <h1>{pokemon.name}</h1>
         </section>
       ))}
-      <Pagination itemsPerPage={10} totalItems={100} />
+      <Pagination
+        itemsPerPage={pagination.itemsPerPage}
+        totalItems={pagination.total}
+        currentPage={pagination.page}
+        onChangePage={page => setPagination(state => ({ ...state, page }))}
+      />
     </S.Container>
   );
 };

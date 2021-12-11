@@ -1,26 +1,57 @@
 import React from 'react';
 
+import * as S from './styles';
+
 export type PaginationPros = {
+  currentPage: number;
+  onChangePage: (page: number) => void;
   totalItems: number;
   itemsPerPage: number;
 };
 
 export const Pagination: React.FC<PaginationPros> = ({
+  currentPage,
+  onChangePage,
   totalItems,
   itemsPerPage
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const maxShowedPagesPerSide = 2;
+  const separator = '...';
+
+  const mappedPages = new Array(totalPages).fill(0).map((_, index, array) => {
+    const pageIndex = index + 1;
+
+    if (index === 0 || index === array.length - 1) return pageIndex;
+
+    const currentPageOffset = Math.abs(currentPage - pageIndex);
+    if (currentPageOffset > maxShowedPagesPerSide) return separator;
+
+    return pageIndex;
+  });
+
+  const pages = mappedPages.filter(
+    (page, index, array) => page !== array[index + 1]
+  );
 
   return (
-    <div>
-      {new Array(totalPages).fill(0).map((_, index) => {
-        const page = index + 1;
+    <S.Container>
+      {pages.map(page => {
+        const isSeparator = page === separator;
+
+        if (isSeparator) return <span>{separator}</span>;
+
         return (
-          <button key={page} type='button'>
-            {index + 1}
+          <button
+            key={page}
+            type='button'
+            onClick={() => onChangePage(page as number)}
+            aria-current={currentPage === page}
+          >
+            {page}
           </button>
         );
       })}
-    </div>
+    </S.Container>
   );
 };

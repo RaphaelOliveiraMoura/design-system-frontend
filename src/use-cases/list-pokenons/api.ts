@@ -31,5 +31,5 @@ export const listPokemons: ListPokemons = async pagination => {
     return { id, name: pokemon.name };
   });
 
-  return pokemons;
+  return { pokemons, total: response.data.count };
 };
