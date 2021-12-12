@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Pagination as PaginationModel, Pokemon } from 'models';
 import { Pagination } from 'components';
 
 import { listPokemons } from 'use-cases/list-pokenons';
 
+import { Routes } from 'services/routes';
 import * as S from './styles';
 
 export const PokemonsPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
   const [loading, setLoading] = useState(false);
@@ -42,7 +46,12 @@ export const PokemonsPage: React.FC = () => {
     <S.Container>
       {pokemons.map(pokemon => (
         <section key={pokemon.id}>
-          <h1>{pokemon.name}</h1>
+          <button
+            type='button'
+            onClick={() => navigate(Routes.POKEMONS_DETAILS(pokemon.id))}
+          >
+            {pokemon.name}
+          </button>
         </section>
       ))}
       <Pagination

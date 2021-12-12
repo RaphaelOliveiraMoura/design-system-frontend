@@ -1,9 +1,8 @@
-import { PaginationParams, Pokemon } from 'models';
+import { PaginationParams, PaginationResult, Pokemon } from 'models';
 
 export type ListPokemonsResult = {
   pokemons: Pokemon[];
-  total: number;
-};
+} & PaginationResult;
 
 export type ListPokemons = (
   pagination: PaginationParams
