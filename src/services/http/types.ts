@@ -1,4 +1,4 @@
-export type HttpParams<IBody, IHeaders> = {
+export type HttpParams<IBody = unknown, IHeaders = unknown> = {
   method: 'get' | 'post' | 'put' | 'delete';
   url: string;
   body?: IBody;
@@ -6,7 +6,7 @@ export type HttpParams<IBody, IHeaders> = {
   query?: unknown;
 };
 
-export type HttpResponse<IResponse> = {
+export type HttpResponse<IResponse = unknown> = {
   data: IResponse;
   status: number;
 };

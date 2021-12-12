@@ -1,5 +1,5 @@
 import { DetailedPokemon } from 'models';
-import { httpRequest } from 'services/http';
+import { httpPokemonRequest } from 'services/http/pokemon';
 import { GetPokemonDetails } from './types';
 
 type HttpResult = {
@@ -9,9 +9,10 @@ type HttpResult = {
 };
 
 export const getPokemonDetails: GetPokemonDetails = async ({ id }) => {
-  const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-
-  const response = await httpRequest<HttpResult>({ method: 'get', url });
+  const response = await httpPokemonRequest<HttpResult>({
+    method: 'get',
+    url: `/pokemon/${id}`
+  });
 
   const pokemon: DetailedPokemon = {
     id: response.data.id,
