@@ -1,7 +1,7 @@
 import * as dateFns from 'date-fns';
 import * as dateFnsTz from 'date-fns-tz';
 
-import { TimezoneEnum } from '..';
+import { TimezoneEnum } from '../types';
 
 export const format = (
   date: Date,

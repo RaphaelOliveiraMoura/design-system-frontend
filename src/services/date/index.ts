@@ -1,12 +1,9 @@
-export enum TimezoneEnum {
-  utc = 'UTC',
-  local = 'LOCAL'
-}
+import { ToDate, ToIso } from './types';
 
-export const now = (isoString?: string) =>
+export const toDate: ToDate = isoString =>
   isoString ? new Date(isoString) : new Date();
 
-export const iso = (date: Date) => date.toISOString();
+export const toIso: ToIso = date => date.toISOString();
 
 export * as formatters from './formatters';
 export * from './operators';
