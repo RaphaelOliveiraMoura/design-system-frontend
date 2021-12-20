@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { GlobalStyles } from 'styles/global';
-import { PokemonsPage } from 'pages/pokemons';
+import { Router } from 'routes/router';
 
 function App() {
   return (
     <>
-      <PokemonsPage />
+      <Router />
       <GlobalStyles />
     </>
   );

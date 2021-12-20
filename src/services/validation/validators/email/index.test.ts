@@ -1,4 +1,4 @@
-import { emailValidator } from './email';
+import { emailValidator } from '.';
 
 describe('EmailValidator', () => {
   type ArrayTestCases = [string, string, string | null][];

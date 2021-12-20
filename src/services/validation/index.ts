@@ -1,7 +1,8 @@
 import { MapObject } from '../../types/mapObject';
 
-export type Validator = (
-  value: unknown,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Validator<T = any> = (
+  value: T,
   context?: unknown
 ) => (string | null) | Promise<string | null>;
 
