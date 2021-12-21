@@ -74,18 +74,10 @@ export const Input = styled.input`
 
 export const ValidIcon = styled(AiOutlineCheckCircle)`
   color: ${sg.colors.green};
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
 `;
 
 export const InvalidIcon = styled(AiOutlineCloseCircle)`
   color: ${sg.colors.red};
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
 `;
 
 export const ErrorText = styled.span`
@@ -93,4 +85,17 @@ export const ErrorText = styled.span`
   margin-top: 4px;
   color: ${sg.colors.red};
   font-size: ${sg.fontSize.small};
+`;
+
+export const InputRightSection = styled.div`
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+`;
+
+export const IconWrapper = styled.div`
+  margin-left: 8px;
 `;

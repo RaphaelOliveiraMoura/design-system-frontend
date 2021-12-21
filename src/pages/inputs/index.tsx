@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 
-import { TextField } from 'components';
+import { TextField, DateInput } from 'components';
 
 import { completeNameValidator } from 'services/validation/validators';
+import { moneyInputMask } from 'services/mask';
 import * as S from './styles';
 
 type FormData = {
   name: string;
+  birthDate: string;
+  accountCurrency: string;
 };
 
 export const InputsPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    name: ''
+    name: '',
+    birthDate: '',
+    accountCurrency: ''
   });
 
   const handleChange = (key: keyof FormData) => (value: string) =>
@@ -29,6 +34,15 @@ export const InputsPage: React.FC = () => {
           onChange={handleChange('name')}
           value={formData.name}
           validator={completeNameValidator}
+        />
+        <DateInput
+          label='Data de nascimento'
+          onChange={handleChange('birthDate')}
+        />
+        <TextField
+          label='Dinheiro na conta'
+          onChange={handleChange('accountCurrency')}
+          mask={moneyInputMask}
         />
       </form>
     </S.Container>

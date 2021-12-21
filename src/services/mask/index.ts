@@ -13,4 +13,4 @@ export const landlinePhoneMask = mask('99 9999-9999');
 
 export const stateMask = (value: string) => mask('AA')(value).toUpperCase();
 
-export { moneyMask } from './money';
+export { moneyInputMask, parseMoney, unparseMoney } from './money';

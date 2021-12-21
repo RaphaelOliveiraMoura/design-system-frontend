@@ -68,7 +68,7 @@ export const unparseMoney = (
   return Number(sanitizedPositiveMoney) * multiplier;
 };
 
-export const moneyMask = (
+export const moneyInputMask = (
   currency: string,
   rawOptions: MoneyMaskOptions = {}
 ) => {
