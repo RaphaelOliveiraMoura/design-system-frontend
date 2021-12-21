@@ -13,6 +13,7 @@ export type TextFieldProps = {
   validator?: Validator;
   mask?: (value: string) => string;
   hideLabel?: boolean;
+  icon?: JSX.Element;
 };
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -22,7 +23,8 @@ export const TextField: React.FC<TextFieldProps> = ({
   onChange,
   validator = requiredValidator,
   mask = (valueToFormat: string) => valueToFormat,
-  hideLabel = false
+  hideLabel = false,
+  icon = <></>
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -85,13 +87,17 @@ export const TextField: React.FC<TextFieldProps> = ({
           spellCheck={false}
         />
 
-        {wasTouched && !error && (
-          <S.ValidIcon aria-label='ícone de sucesso' size='20' />
-        )}
+        <S.InputRightSection>
+          {wasTouched && !error && (
+            <S.ValidIcon aria-label='ícone de sucesso' size='20' />
+          )}
 
-        {wasTouched && error && (
-          <S.InvalidIcon aria-label='ícone de erro' size='20' />
-        )}
+          {wasTouched && error && (
+            <S.InvalidIcon aria-label='ícone de erro' size='20' />
+          )}
+
+          {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
+        </S.InputRightSection>
       </S.InputLabel>
 
       {wasTouched && error && <S.ErrorText>{error}</S.ErrorText>}

@@ -1,4 +1,4 @@
-import { requiredValidator } from './required';
+import { requiredValidator } from '.';
 
 describe('RequiredValidator', () => {
   type ArrayTestCases = [string, unknown, string | null][];

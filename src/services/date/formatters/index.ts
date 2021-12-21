@@ -1,7 +1,7 @@
 import * as dateFns from 'date-fns';
 import * as dateFnsTz from 'date-fns-tz';
 
-import { TimezoneEnum } from '..';
+import { TimezoneEnum } from '../types';
 
 export const format = (
   date: Date,
@@ -9,9 +9,8 @@ export const format = (
   timezone: TimezoneEnum = TimezoneEnum.local
 ) => {
   if (timezone === TimezoneEnum.utc) {
-    return dateFnsTz.format(dateFnsTz.utcToZonedTime(date, timezone), pattern, {
-      timeZone: timezone
-    });
+    const dateWithTimezone = dateFnsTz.utcToZonedTime(date, timezone);
+    return dateFnsTz.format(dateWithTimezone, pattern, { timeZone: timezone });
   }
 
   return dateFns.format(date, pattern);

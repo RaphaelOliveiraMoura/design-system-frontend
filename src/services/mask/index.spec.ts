@@ -22,32 +22,64 @@ describe('mask', () => {
   });
 
   it('should test money mask', () => {
-    expect(masker.moneyMask('')).toBe('0,00');
-    expect(masker.moneyMask('0')).toBe('0,00');
+    expect(masker.moneyInputMask('')).toBe('0,00');
+    expect(masker.moneyInputMask('0')).toBe('0,00');
 
-    expect(masker.moneyMask('0,001')).toBe('0,01');
-    expect(masker.moneyMask('0,012')).toBe('0,12');
-    expect(masker.moneyMask('0,123')).toBe('1,23');
-    expect(masker.moneyMask('0,12345')).toBe('123,45');
+    expect(masker.moneyInputMask('0,001')).toBe('0,01');
+    expect(masker.moneyInputMask('0,012')).toBe('0,12');
+    expect(masker.moneyInputMask('0,123')).toBe('1,23');
+    expect(masker.moneyInputMask('0,12345')).toBe('123,45');
 
-    expect(masker.moneyMask('1,2')).toBe('0,12');
-    expect(masker.moneyMask('100.000,2')).toBe('10.000,02');
-    expect(masker.moneyMask('0,1')).toBe('0,01');
-    expect(masker.moneyMask('123,')).toBe('1,23');
+    expect(masker.moneyInputMask('1,2')).toBe('0,12');
+    expect(masker.moneyInputMask('100.000,2')).toBe('10.000,02');
+    expect(masker.moneyInputMask('0,1')).toBe('0,01');
+    expect(masker.moneyInputMask('123,')).toBe('1,23');
 
-    expect(masker.moneyMask('123456,00')).toBe('123.456,00');
-    expect(masker.moneyMask('12.3456,00')).toBe('123.456,00');
-    expect(masker.moneyMask('123.456,00aaa')).toBe('123.456,00');
-    expect(masker.moneyMask('aaa123.456,00')).toBe('123.456,00');
-    expect(masker.moneyMask('abc123+*.45=6;,00')).toBe('123.456,00');
+    expect(masker.moneyInputMask('123456,00')).toBe('123.456,00');
+    expect(masker.moneyInputMask('12.3456,00')).toBe('123.456,00');
+    expect(masker.moneyInputMask('123.456,00aaa')).toBe('123.456,00');
+    expect(masker.moneyInputMask('aaa123.456,00')).toBe('123.456,00');
+    expect(masker.moneyInputMask('abc123+*.45=6;,00')).toBe('123.456,00');
 
-    expect(masker.moneyMask('123.456,00-')).toBe('-123.456,00');
-    expect(masker.moneyMask('-123.456,00')).toBe('-123.456,00');
-    expect(masker.moneyMask('--123.456,00')).toBe('123.456,00');
-    expect(masker.moneyMask('---123.456,00')).toBe('-123.456,00');
-    expect(masker.moneyMask('----123.456,00')).toBe('123.456,00');
-    expect(masker.moneyMask('-123.456-,00')).toBe('123.456,00');
-    expect(masker.moneyMask('-123.456,00-')).toBe('123.456,00');
-    expect(masker.moneyMask('123-.456,00')).toBe('-123.456,00');
+    expect(masker.moneyInputMask('123.456,00-')).toBe('-123.456,00');
+    expect(masker.moneyInputMask('-123.456,00')).toBe('-123.456,00');
+    expect(masker.moneyInputMask('--123.456,00')).toBe('123.456,00');
+    expect(masker.moneyInputMask('---123.456,00')).toBe('-123.456,00');
+    expect(masker.moneyInputMask('----123.456,00')).toBe('123.456,00');
+    expect(masker.moneyInputMask('-123.456-,00')).toBe('123.456,00');
+    expect(masker.moneyInputMask('-123.456,00-')).toBe('123.456,00');
+    expect(masker.moneyInputMask('123-.456,00')).toBe('-123.456,00');
+  });
+
+  it('unparseMoney', () => {
+    expect(masker.unparseMoney('-R$ 1.000.000,15')).toBe(-1000000.15);
+
+    expect(
+      masker.unparseMoney('-R$ 1.000.000,15', { acceptNegative: false })
+    ).toBe(1000000.15);
+
+    expect(
+      masker.unparseMoney('1~000~000*1500', {
+        delimiter: '*'
+      })
+    ).toBe(1000000.15);
+  });
+
+  it('parseMoney', () => {
+    expect(masker.parseMoney(0)).toBe('0,00');
+    expect(masker.parseMoney(0.1)).toBe('0,10');
+    expect(masker.parseMoney(1.1)).toBe('1,10');
+
+    expect(
+      masker.parseMoney(1000000.15, {
+        delimiter: '*',
+        separator: '~',
+        precision: 4
+      })
+    ).toBe('1~000~000*1500');
+
+    expect(
+      masker.parseMoney(1000000.15, { delimiter: '.', separator: ',' })
+    ).toBe('1,000,000.15');
   });
 });
