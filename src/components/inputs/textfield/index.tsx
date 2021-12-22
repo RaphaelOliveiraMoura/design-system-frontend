@@ -12,7 +12,6 @@ export type TextFieldProps = {
   onChange: (value: string) => void;
   validator?: Validator;
   mask?: (value: string) => string;
-  hideLabel?: boolean;
   icon?: JSX.Element;
 };
 
@@ -23,8 +22,8 @@ export const TextField: React.FC<TextFieldProps> = ({
   onChange,
   validator = requiredValidator,
   mask = (valueToFormat: string) => valueToFormat,
-  hideLabel = false,
-  icon = <></>
+  icon = <></>,
+  children = <></>
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -71,7 +70,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   };
 
   return (
-    <S.Wrapper hideLabel={hideLabel}>
+    <S.Wrapper>
       <S.InputLabel isFocused={isFocused} hasError={wasTouched && !!error}>
         <S.LabelText>{label}</S.LabelText>
 
@@ -93,14 +92,16 @@ export const TextField: React.FC<TextFieldProps> = ({
           )}
 
           {wasTouched && error && (
-            <S.InvalidIcon aria-label='ícone de erro' size='20' />
+            <S.InvalidIcon aria-label='ícone de erro' size='20' title={error} />
           )}
 
           {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
         </S.InputRightSection>
       </S.InputLabel>
 
-      {wasTouched && error && <S.ErrorText>{error}</S.ErrorText>}
+      {children}
+
+      {wasTouched && error && <S.ErrorText role='alert'>{error}</S.ErrorText>}
     </S.Wrapper>
   );
 };

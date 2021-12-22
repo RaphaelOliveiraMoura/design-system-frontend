@@ -38,18 +38,14 @@ export const DateInput: React.FC<TextFieldProps> = ({
         mask={mask}
         value={date}
         onChange={setDate}
-        icon={
-          <button type='button' onClick={() => setCalendarOpen(true)}>
-            oi
-          </button>
-        }
-      />
-
-      {calendarIsOpen && (
-        <S.CalendarWrapper>
-          <Calendar onSelectDate={onSelectDate} calendarRef={calendarRef} />
-        </S.CalendarWrapper>
-      )}
+        icon={<S.CalendarIcon onClick={() => setCalendarOpen(true)} />}
+      >
+        {calendarIsOpen && (
+          <S.CalendarWrapper>
+            <Calendar onSelectDate={onSelectDate} calendarRef={calendarRef} />
+          </S.CalendarWrapper>
+        )}
+      </TextField>
     </S.Wrapper>
   );
 };

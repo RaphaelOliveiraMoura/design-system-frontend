@@ -10,7 +10,9 @@ describe('<TextField />', () => {
   );
 
   const getInput = (label = /input-label/i) => screen.getByLabelText(label);
-  const getRequiredErrorText = () => screen.queryByText(/campo obrigatório/i);
+  const getRequiredErrorText = () =>
+    screen.queryByText(/campo obrigatório/i, { selector: 'span' });
+
   const getErrorIcon = () => screen.queryByLabelText(/ícone de erro/i);
   const getSuccessIcon = () => screen.queryByLabelText(/ícone de sucesso/i);
 
@@ -20,7 +22,9 @@ describe('<TextField />', () => {
       : 'Campo deve ser maior que 3 caracteres';
 
   const getCustomValidatorErrorText = () =>
-    screen.queryByText(/campo deve ser maior que 3 caracteres/i);
+    screen.queryByText(/campo deve ser maior que 3 caracteres/i, {
+      selector: 'span'
+    });
 
   describe('uncontrolled', () => {
     it('should render a input without crashing', () => {
@@ -109,13 +113,6 @@ describe('<TextField />', () => {
       await waitFor(() => {
         expect(getCustomValidatorErrorText()).not.toBeInTheDocument();
       });
-    });
-
-    it('should hide label input', async () => {
-      render(<BaseComponent hideLabel />);
-
-      expect(screen.getByText(/input-label/i)).toBeInTheDocument();
-      expect(screen.getByText(/input-label/i)).not.toBeVisible();
     });
   });
 

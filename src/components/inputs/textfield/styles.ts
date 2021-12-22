@@ -3,10 +3,6 @@ import { sg } from 'styles/styleGuide';
 
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 
-type WrapperProps = {
-  hideLabel: boolean;
-};
-
 export const LabelText = styled.p`
   position: absolute;
   left: 0;
@@ -15,21 +11,12 @@ export const LabelText = styled.p`
   padding-bottom: 4px;
 `;
 
-export const Wrapper = styled.div<WrapperProps>`
+export const Wrapper = styled.div`
   position: relative;
   max-width: 400px;
   width: 100%;
   margin-top: ${sg.spacing.xxlarge};
   font-size: ${sg.fontSize.medium};
-
-  ${({ hideLabel }) =>
-    hideLabel &&
-    css`
-      margin-top: 0px;
-      ${LabelText} {
-        display: none;
-      }
-    `}
 `;
 
 type InputLabelProps = {
