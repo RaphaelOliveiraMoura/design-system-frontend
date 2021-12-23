@@ -17,6 +17,7 @@ export const Dropdown = styled.div`
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 3px 3px 14px 4px #ededed;
+  z-index: 9999;
 `;
 
 export const SelectItem = styled.button`

@@ -2,29 +2,31 @@ import React, { createRef, useMemo, useRef, useState } from 'react';
 
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
+import { requiredArrayValidator } from 'services/validation/validators';
 import { TextField, TextFieldProps } from '../textfield';
 
 import * as S from './styles';
-import { useControlKeys } from './hooks';
 
-export type Option = {
-  label: string;
-  value: string;
-};
+import { Option } from '..';
+import { useControlKeys } from '../select/hooks';
 
-export type SelectInputProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
+export type MultSelectInputProps = Omit<
+  TextFieldProps,
+  'value' | 'onChange'
+> & {
   options: Option[];
-  value: Option;
-  onChange: (value: Option) => void;
+  value: Option[];
+  onChange: (value: Option[]) => void;
 };
 
-export const SelectInput: React.FC<SelectInputProps> = ({
+export const MultSelectInput: React.FC<MultSelectInputProps> = ({
   options,
   onChange,
   value,
+  validator = requiredArrayValidator,
   ...props
 }) => {
-  const [inputValue, setInputValue] = useState(value.label);
+  const [inputValue, setInputValue] = useState('');
   const [dropdownIsOpen, setDropdownOpen] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -36,7 +38,11 @@ export const SelectInput: React.FC<SelectInputProps> = ({
   };
 
   const availableOptions = useMemo(
-    () => options.filter(option => !!option.label).filter(matchOption),
+    () =>
+      options
+        .filter(option => !!option.label)
+        .filter(matchOption)
+        .filter(option => !value.find(o => o.value === option.value)),
     [options, matchOption]
   );
 
@@ -46,9 +52,15 @@ export const SelectInput: React.FC<SelectInputProps> = ({
   );
 
   const handleSelect = (option: Option) => {
-    onChange(option);
-    setInputValue(option.label);
+    onChange([...value, option]);
     setDropdownOpen(false);
+    setInputValue('');
+  };
+
+  const handleRemove = (index: number) => {
+    const draft = [...value];
+    draft.splice(index, 1);
+    onChange([...draft]);
   };
 
   const handleChangeText = (text: string) => {
@@ -57,19 +69,21 @@ export const SelectInput: React.FC<SelectInputProps> = ({
 
   useOnClickOutside(dropdownRef, () => {
     setDropdownOpen(false);
-
-    const findedOption = options.find(o => o.label === inputValue);
-
-    if (inputValue !== value.label && findedOption) {
-      setInputValue(findedOption.label);
-      onChange(findedOption);
-      return;
-    }
-
-    setInputValue(value.label);
+    setInputValue('');
   });
 
   useControlKeys(optionsRef);
+
+  const inputChildren = (
+    <S.SelectedOptionsContainer>
+      {value.map((option, index) => (
+        <S.SelectedOption>
+          {option.label}
+          <S.RemoveOptionIcon onClick={() => handleRemove(index)} />
+        </S.SelectedOption>
+      ))}
+    </S.SelectedOptionsContainer>
+  );
 
   return (
     <S.Wrapper ref={dropdownRef}>
@@ -79,6 +93,8 @@ export const SelectInput: React.FC<SelectInputProps> = ({
         onChange={handleChangeText}
         icon={<S.DropdownIcon onClick={() => setDropdownOpen(true)} />}
         inputProps={{ onFocus: () => setDropdownOpen(true) }}
+        inputChildren={inputChildren}
+        validator={() => validator(value)}
       >
         {dropdownIsOpen && (
           <S.Dropdown>

@@ -9,12 +9,13 @@ import * as S from './styles';
 export type TextFieldProps = {
   label: string;
   placeholder?: string;
-  value?: string;
+  value: string;
   onChange: (value: string) => void;
   validator?: Validator;
   mask?: Masker;
   icon?: JSX.Element;
   inputProps?: Partial<React.InputHTMLAttributes<HTMLInputElement>>;
+  inputChildren?: JSX.Element;
 };
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -26,6 +27,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   mask = (valueToFormat: string) => valueToFormat,
   icon = <></>,
   children = <></>,
+  inputChildren = <></>,
   inputProps = {}
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -33,8 +35,6 @@ export const TextField: React.FC<TextFieldProps> = ({
   const [wasTouched, setTouched] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const controlledComponent = value !== undefined;
 
   const checkForErrors = useCallback(
     async (inputValue = '') => {
@@ -45,30 +45,20 @@ export const TextField: React.FC<TextFieldProps> = ({
   );
 
   useEffect(() => {
-    if (!controlledComponent) return;
     if (!wasTouched) return;
-
     checkForErrors(value);
-  }, [value]);
+  }, [value, validator]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-
     const maskedValue = mask(inputValue);
 
-    if (controlledComponent) return onChange(maskedValue);
-
-    if (inputRef.current) inputRef.current.value = maskedValue;
-
-    checkForErrors(maskedValue);
     onChange(maskedValue);
-
     if (inputProps.onChange) inputProps.onChange(e);
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement, Element>) => {
     setIsFocused(true);
-
     if (inputProps.onFocus) inputProps.onFocus(e);
   };
 
@@ -98,6 +88,8 @@ export const TextField: React.FC<TextFieldProps> = ({
           autoCorrect='off'
           spellCheck={false}
         />
+
+        {inputChildren}
 
         <S.InputRightSection>
           {wasTouched && !error && (

@@ -5,7 +5,8 @@ import {
   DateInput,
   RangeDateInput,
   SelectInput,
-  Option
+  Option,
+  MultSelectInput
 } from 'components';
 
 import { completeNameValidator } from 'services/validation/validators';
@@ -18,6 +19,7 @@ type FormData = {
   accountCurrency: string;
   rangeDate: string;
   sex: Option;
+  colors: Option[];
 };
 
 export const InputsPage: React.FC = () => {
@@ -26,11 +28,13 @@ export const InputsPage: React.FC = () => {
     birthDate: '',
     accountCurrency: '',
     rangeDate: '',
-    sex: { value: '', label: '' }
+    sex: { value: '', label: '' },
+    colors: []
   });
 
-  const handleChange = (key: keyof FormData) => (value: string | Option) =>
-    setFormData(state => ({ ...state, [key]: value }));
+  const handleChange =
+    (key: keyof FormData) => (value: string | Option | Option[]) =>
+      setFormData(state => ({ ...state, [key]: value }));
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -69,6 +73,16 @@ export const InputsPage: React.FC = () => {
             { label: 'Não opinar', value: 'none' },
             { label: 'Masculino', value: 'male' },
             { label: 'Feminino', value: 'female' }
+          ]}
+        />
+        <MultSelectInput
+          label='Selecione suas cores'
+          value={formData.colors}
+          onChange={handleChange('colors')}
+          options={[
+            { label: 'blue', value: '1' },
+            { label: 'yellow', value: '2' },
+            { label: 'red', value: '3' }
           ]}
         />
       </form>
