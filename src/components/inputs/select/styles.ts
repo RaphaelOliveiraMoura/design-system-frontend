@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { MdArrowDropDown } from 'react-icons/md';
 
@@ -16,17 +16,23 @@ export const Dropdown = styled.div`
   right: 0;
   border-radius: 8px;
   overflow: hidden;
+  overflow-y: scroll;
   box-shadow: 3px 3px 14px 4px #ededed;
   z-index: 9999;
+  max-height: 200px;
 `;
 
-export const SelectItem = styled.button`
+const itemStyles = css`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   background: #fefefe;
-  padding: 6px 0;
+  padding: 8px 0;
+`;
+
+export const SelectItem = styled.button`
+  ${itemStyles}
   cursor: pointer;
   outline: none;
 
@@ -37,4 +43,10 @@ export const SelectItem = styled.button`
   &:focus {
     font-weight: bold;
   }
+`;
+
+export const NoOptions = styled.div`
+  ${itemStyles}
+  cursor: default;
+  color: #666;
 `;

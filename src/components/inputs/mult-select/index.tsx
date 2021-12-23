@@ -77,7 +77,7 @@ export const MultSelectInput: React.FC<MultSelectInputProps> = ({
   const inputChildren = (
     <S.SelectedOptionsContainer>
       {value.map((option, index) => (
-        <S.SelectedOption>
+        <S.SelectedOption key={option.value}>
           {option.label}
           <S.RemoveOptionIcon onClick={() => handleRemove(index)} />
         </S.SelectedOption>
@@ -108,6 +108,10 @@ export const MultSelectInput: React.FC<MultSelectInputProps> = ({
                 {option.label}
               </S.SelectItem>
             ))}
+
+            {availableOptions.length === 0 && (
+              <S.NoOptions>Nenhuma opção encontrada</S.NoOptions>
+            )}
           </S.Dropdown>
         )}
       </TextField>

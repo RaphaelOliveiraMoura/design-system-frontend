@@ -6,7 +6,8 @@ import {
   RangeDateInput,
   SelectInput,
   Option,
-  MultSelectInput
+  MultSelectInput,
+  ToggleInput
 } from 'components';
 
 import { completeNameValidator } from 'services/validation/validators';
@@ -20,6 +21,7 @@ type FormData = {
   rangeDate: string;
   sex: Option;
   colors: Option[];
+  likeContent: boolean;
 };
 
 export const InputsPage: React.FC = () => {
@@ -29,12 +31,12 @@ export const InputsPage: React.FC = () => {
     accountCurrency: '',
     rangeDate: '',
     sex: { value: '', label: '' },
-    colors: []
+    colors: [],
+    likeContent: false
   });
 
-  const handleChange =
-    (key: keyof FormData) => (value: string | Option | Option[]) =>
-      setFormData(state => ({ ...state, [key]: value }));
+  const handleChange = (key: keyof FormData) => (value: unknown) =>
+    setFormData(state => ({ ...state, [key]: value }));
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,6 +86,11 @@ export const InputsPage: React.FC = () => {
             { label: 'yellow', value: '2' },
             { label: 'red', value: '3' }
           ]}
+        />
+        <ToggleInput
+          label='Gostou do conteúdo'
+          checked={formData.likeContent}
+          onChange={handleChange('likeContent')}
         />
       </form>
     </S.Container>

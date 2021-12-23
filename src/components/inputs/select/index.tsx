@@ -92,6 +92,10 @@ export const SelectInput: React.FC<SelectInputProps> = ({
                 {option.label}
               </S.SelectItem>
             ))}
+
+            {availableOptions.length === 0 && (
+              <S.NoOptions>Nenhuma opção encontrada</S.NoOptions>
+            )}
           </S.Dropdown>
         )}
       </TextField>

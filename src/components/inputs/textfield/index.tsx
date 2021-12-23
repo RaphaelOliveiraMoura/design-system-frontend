@@ -24,7 +24,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   value,
   onChange,
   validator = requiredValidator,
-  mask = (valueToFormat: string) => valueToFormat,
+  mask = valueToFormat => valueToFormat,
   icon = <></>,
   children = <></>,
   inputChildren = <></>,
@@ -47,7 +47,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   useEffect(() => {
     if (!wasTouched) return;
     checkForErrors(value);
-  }, [value, validator]);
+  }, [value, checkForErrors]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
