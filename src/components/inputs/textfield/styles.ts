@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
   position: relative;
   max-width: 400px;
   width: 100%;
-  margin-top: ${sg.spacing.xxlarge};
+  padding-top: ${sg.spacing.xxlarge};
   font-size: ${sg.fontSize.medium};
 `;
 

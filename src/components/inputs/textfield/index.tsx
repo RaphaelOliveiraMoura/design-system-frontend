@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { Masker } from 'services/mask/types';
 
 import { Validator } from 'services/validation';
 import { requiredValidator } from 'services/validation/validators';
@@ -11,7 +12,7 @@ export type TextFieldProps = {
   value?: string;
   onChange: (value: string) => void;
   validator?: Validator;
-  mask?: (value: string) => string;
+  mask?: Masker;
   icon?: JSX.Element;
 };
 

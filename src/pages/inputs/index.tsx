@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { TextField, DateInput } from 'components';
+import { TextField, DateInput, RangeDateInput } from 'components';
 
 import { completeNameValidator } from 'services/validation/validators';
 import { moneyInputMask } from 'services/mask';
@@ -10,13 +10,15 @@ type FormData = {
   name: string;
   birthDate: string;
   accountCurrency: string;
+  rangeDate: string;
 };
 
 export const InputsPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     birthDate: '',
-    accountCurrency: ''
+    accountCurrency: '',
+    rangeDate: ''
   });
 
   const handleChange = (key: keyof FormData) => (value: string) =>
@@ -38,11 +40,18 @@ export const InputsPage: React.FC = () => {
         <DateInput
           label='Data de nascimento'
           onChange={handleChange('birthDate')}
+          value={formData.birthDate}
+        />
+        <RangeDateInput
+          label='Dias disponíveis'
+          onChange={handleChange('rangeDate')}
+          value={formData.rangeDate}
         />
         <TextField
           label='Dinheiro na conta'
           onChange={handleChange('accountCurrency')}
           mask={moneyInputMask}
+          value={formData.accountCurrency}
         />
       </form>
     </S.Container>

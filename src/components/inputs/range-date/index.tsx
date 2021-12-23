@@ -4,26 +4,39 @@ import { Calendar } from 'components';
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 import { formatters } from 'services/date';
-import { dateMask } from 'services/mask';
+import { dateIntervalMask } from 'services/mask';
 
 import { TextField, TextFieldProps } from '../textfield';
 
-import * as S from './styles';
+import * as S from '../date/styles';
 
-export const DateInput: React.FC<TextFieldProps> = ({
-  mask = dateMask,
+export const RangeDateInput: React.FC<TextFieldProps> = ({
+  mask = dateIntervalMask,
   ...props
 }) => {
   const calendarRef = useRef<HTMLDivElement>(null);
 
   const [date, setDate] = useState(props.value || '');
   const [calendarIsOpen, setCalendarOpen] = useState(false);
+  const [calendarOnFirstDate, setCalendarOnFirstDate] = useState(true);
 
-  const selectedDay = useMemo(() => {
-    const dateMask = 'dd/mm/yyyy';
+  const dateMask = 'dd/mm/yyyy';
+  const rangeDateMask = `${dateMask} - ${dateMask}`;
+
+  const openCalendar = () => {
+    setCalendarOpen(true);
+    setCalendarOnFirstDate(true);
+  };
+
+  const selectedDays = useMemo(() => {
     if (!props.value) return undefined;
     if (props.value.length < dateMask.length) return undefined;
-    return formatters.parseDate(props.value);
+
+    if (props.value.length === rangeDateMask.length)
+      return formatters.parseRangeDate(props.value);
+
+    const firstDate = props.value.slice(0, dateMask.length);
+    return formatters.parseDate(firstDate);
   }, [props.value]);
 
   useEffect(() => {
@@ -32,8 +45,18 @@ export const DateInput: React.FC<TextFieldProps> = ({
 
   const onSelectDate = (date: Date | null) => {
     if (!date) return;
-    setDate(formatters.date(date));
-    setCalendarOpen(false);
+
+    const formatedDate = formatters.date(date);
+
+    if (calendarOnFirstDate) {
+      setDate(formatedDate);
+      setCalendarOnFirstDate(false);
+    } else {
+      const initialDate = props.value?.slice(0, dateMask.length);
+      const rangeWithFinalDate = mask(`${initialDate} - ${formatedDate}`);
+      setDate(rangeWithFinalDate);
+      setCalendarOpen(false);
+    }
   };
 
   useOnClickOutside(calendarRef, () => setCalendarOpen(false));
@@ -45,14 +68,14 @@ export const DateInput: React.FC<TextFieldProps> = ({
         mask={mask}
         value={date}
         onChange={setDate}
-        icon={<S.CalendarIcon onClick={() => setCalendarOpen(true)} />}
+        icon={<S.CalendarIcon onClick={() => openCalendar()} />}
       >
         {calendarIsOpen && (
           <S.CalendarWrapper>
             <Calendar
               onSelectDate={onSelectDate}
               calendarRef={calendarRef}
-              selectedDays={selectedDay}
+              selectedDays={selectedDays}
             />
           </S.CalendarWrapper>
         )}
