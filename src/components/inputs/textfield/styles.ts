@@ -85,4 +85,7 @@ export const InputRightSection = styled.div`
 
 export const IconWrapper = styled.div`
   margin-left: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

@@ -46,6 +46,7 @@ export const DateInput: React.FC<TextFieldProps> = ({
         value={date}
         onChange={setDate}
         icon={<S.CalendarIcon onClick={() => setCalendarOpen(true)} />}
+        inputProps={{ readOnly: true, onFocus: () => setCalendarOpen(true) }}
       >
         {calendarIsOpen && (
           <S.CalendarWrapper>

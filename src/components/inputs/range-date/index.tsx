@@ -69,6 +69,7 @@ export const RangeDateInput: React.FC<TextFieldProps> = ({
         value={date}
         onChange={setDate}
         icon={<S.CalendarIcon onClick={() => openCalendar()} />}
+        inputProps={{ readOnly: true, onFocus: () => openCalendar() }}
       >
         {calendarIsOpen && (
           <S.CalendarWrapper>

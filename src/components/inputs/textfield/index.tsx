@@ -14,6 +14,7 @@ export type TextFieldProps = {
   validator?: Validator;
   mask?: Masker;
   icon?: JSX.Element;
+  inputProps?: Partial<React.InputHTMLAttributes<HTMLInputElement>>;
 };
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -24,7 +25,8 @@ export const TextField: React.FC<TextFieldProps> = ({
   validator = requiredValidator,
   mask = (valueToFormat: string) => valueToFormat,
   icon = <></>,
-  children = <></>
+  children = <></>,
+  inputProps = {}
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -49,7 +51,9 @@ export const TextField: React.FC<TextFieldProps> = ({
     checkForErrors(value);
   }, [value]);
 
-  const handleChange = (inputValue: string) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
     const maskedValue = mask(inputValue);
 
     if (controlledComponent) return onChange(maskedValue);
@@ -58,16 +62,23 @@ export const TextField: React.FC<TextFieldProps> = ({
 
     checkForErrors(maskedValue);
     onChange(maskedValue);
+
+    if (inputProps.onChange) inputProps.onChange(e);
   };
 
-  const handleFocus = () => {
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement, Element>) => {
     setIsFocused(true);
+
+    if (inputProps.onFocus) inputProps.onFocus(e);
   };
 
-  const handleBlur = (inputValue: string) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    const inputValue = e.target.value;
     checkForErrors(inputValue);
     setIsFocused(false);
     setTouched(true);
+
+    if (inputProps.onBlur) inputProps.onBlur(e);
   };
 
   return (
@@ -76,12 +87,13 @@ export const TextField: React.FC<TextFieldProps> = ({
         <S.LabelText>{label}</S.LabelText>
 
         <S.Input
+          {...inputProps}
           ref={inputRef}
           value={value}
           placeholder={placeholder}
-          onChange={e => handleChange(e.target.value)}
+          onChange={handleChange}
           onFocus={handleFocus}
-          onBlur={e => handleBlur(e.target.value)}
+          onBlur={handleBlur}
           autoComplete='off'
           autoCorrect='off'
           spellCheck={false}

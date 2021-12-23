@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-import { TextField, DateInput, RangeDateInput } from 'components';
+import {
+  TextField,
+  DateInput,
+  RangeDateInput,
+  SelectInput,
+  Option
+} from 'components';
 
 import { completeNameValidator } from 'services/validation/validators';
 import { moneyInputMask } from 'services/mask';
@@ -11,6 +17,7 @@ type FormData = {
   birthDate: string;
   accountCurrency: string;
   rangeDate: string;
+  sex: Option;
 };
 
 export const InputsPage: React.FC = () => {
@@ -18,10 +25,11 @@ export const InputsPage: React.FC = () => {
     name: '',
     birthDate: '',
     accountCurrency: '',
-    rangeDate: ''
+    rangeDate: '',
+    sex: { value: '', label: '' }
   });
 
-  const handleChange = (key: keyof FormData) => (value: string) =>
+  const handleChange = (key: keyof FormData) => (value: string | Option) =>
     setFormData(state => ({ ...state, [key]: value }));
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,6 +60,16 @@ export const InputsPage: React.FC = () => {
           onChange={handleChange('accountCurrency')}
           mask={moneyInputMask}
           value={formData.accountCurrency}
+        />
+        <SelectInput
+          label='Sexo'
+          value={formData.sex}
+          onChange={handleChange('sex')}
+          options={[
+            { label: 'Não opinar', value: 'none' },
+            { label: 'Masculino', value: 'male' },
+            { label: 'Feminino', value: 'female' }
+          ]}
         />
       </form>
     </S.Container>
