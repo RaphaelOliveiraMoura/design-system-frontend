@@ -9,10 +9,7 @@ describe('RequiredValidator', () => {
     ['false', false, 'Campo obrigatório'],
     ['string with space', ' ', 'Campo obrigatório'],
     ['filled string', 'filled', null],
-    ['array with numbers', [1, 2, 3, 4, 5, 6], null],
-    ['array with strings', ['1', '2', '3', '4', '5', '6'], null],
-    ['empty array', [], 'Campo obrigatório'],
-    ['array with only space', [], 'Campo obrigatório']
+    ['empty array', [], null]
   ];
 
   testCases.forEach(([title, value, expectedError]) =>

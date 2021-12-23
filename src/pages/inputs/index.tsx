@@ -7,10 +7,14 @@ import {
   SelectInput,
   Option,
   MultSelectInput,
-  ToggleInput
+  ToggleInput,
+  PasswordInput
 } from 'components';
 
-import { completeNameValidator } from 'services/validation/validators';
+import {
+  compareValidatorBuilder,
+  completeNameValidator
+} from 'services/validation/validators';
 import { moneyInputMask } from 'services/mask';
 import * as S from './styles';
 
@@ -22,6 +26,8 @@ type FormData = {
   sex: Option;
   colors: Option[];
   likeContent: boolean;
+  password: string;
+  confirmPassword: string;
 };
 
 export const InputsPage: React.FC = () => {
@@ -32,7 +38,9 @@ export const InputsPage: React.FC = () => {
     rangeDate: '',
     sex: { value: '', label: '' },
     colors: [],
-    likeContent: false
+    likeContent: false,
+    password: '',
+    confirmPassword: ''
   });
 
   const handleChange = (key: keyof FormData) => (value: unknown) =>
@@ -91,6 +99,17 @@ export const InputsPage: React.FC = () => {
           label='Gostou do conteúdo'
           checked={formData.likeContent}
           onChange={handleChange('likeContent')}
+        />
+        <PasswordInput
+          label='Senha'
+          onChange={handleChange('password')}
+          value={formData.password}
+        />
+        <PasswordInput
+          label='Confirmar Senha'
+          onChange={handleChange('confirmPassword')}
+          value={formData.confirmPassword}
+          validator={compareValidatorBuilder(formData.password)}
         />
       </form>
     </S.Container>

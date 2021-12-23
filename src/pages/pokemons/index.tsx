@@ -7,6 +7,7 @@ import { Pagination } from 'components';
 import { listPokemons } from 'use-cases/list-pokenons';
 
 import { Routes } from 'services/routes';
+import { toast } from 'services/toast';
 import * as S from './styles';
 
 export const PokemonsPage: React.FC = () => {
@@ -30,8 +31,10 @@ export const PokemonsPage: React.FC = () => {
         setPokemons(pokemons);
         setPagination(state => ({ ...state, total }));
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        toast.error({
+          title: 'Erro ao listar pokemons',
+          error: error as Error
+        });
       } finally {
         setLoading(false);
       }
