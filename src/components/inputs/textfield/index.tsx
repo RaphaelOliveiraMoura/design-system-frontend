@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Masker } from 'services/mask/types';
 
 import { Validator } from 'services/validation';
@@ -11,6 +11,7 @@ export type TextFieldProps = {
   placeholder?: string;
   value: string;
   onChange: (value: string) => void;
+  touched?: boolean;
   validator?: Validator;
   mask?: Masker;
   icon?: JSX.Element;
@@ -23,6 +24,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   placeholder,
   value,
   onChange,
+  touched,
   validator = requiredValidator,
   mask = valueToFormat => valueToFormat,
   icon = <></>,
@@ -32,9 +34,9 @@ export const TextField: React.FC<TextFieldProps> = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [wasTouched, setTouched] = useState(false);
+  const [inputWasTouched, setInputTouched] = useState(false);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const wasTouched = touched === false ? false : touched || inputWasTouched;
 
   const checkForErrors = useCallback(
     async (inputValue = '') => {
@@ -47,18 +49,19 @@ export const TextField: React.FC<TextFieldProps> = ({
   useEffect(() => {
     if (!wasTouched) return;
     checkForErrors(value);
-  }, [value, checkForErrors]);
+  }, [value, checkForErrors, wasTouched]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     const maskedValue = mask(inputValue);
-
     onChange(maskedValue);
+
     if (inputProps.onChange) inputProps.onChange(e);
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement, Element>) => {
     setIsFocused(true);
+
     if (inputProps.onFocus) inputProps.onFocus(e);
   };
 
@@ -66,7 +69,7 @@ export const TextField: React.FC<TextFieldProps> = ({
     const inputValue = e.target.value;
     checkForErrors(inputValue);
     setIsFocused(false);
-    setTouched(true);
+    setInputTouched(true);
 
     if (inputProps.onBlur) inputProps.onBlur(e);
   };
@@ -78,7 +81,6 @@ export const TextField: React.FC<TextFieldProps> = ({
 
         <S.Input
           {...inputProps}
-          ref={inputRef}
           value={value}
           placeholder={placeholder}
           onChange={handleChange}

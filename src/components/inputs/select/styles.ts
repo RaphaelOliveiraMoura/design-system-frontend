@@ -2,7 +2,9 @@ import styled, { css } from 'styled-components';
 
 import { MdArrowDropDown } from 'react-icons/md';
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  width: 100%;
+`;
 
 export const DropdownIcon = styled(MdArrowDropDown)`
   cursor: pointer;

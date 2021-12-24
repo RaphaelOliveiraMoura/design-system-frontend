@@ -1,6 +1,4 @@
-import React, { createRef, useMemo, useRef, useState } from 'react';
-
-import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import React, { createRef, useMemo, useState } from 'react';
 
 import { TextField, TextFieldProps } from '../textfield';
 
@@ -27,8 +25,6 @@ export const SelectInput: React.FC<SelectInputProps> = ({
   const [inputValue, setInputValue] = useState(value.label);
   const [dropdownIsOpen, setDropdownOpen] = useState(false);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
   const matchOption = (option: Option) => {
     const findedOption = options.find(o => o.label === inputValue);
     if (findedOption) return true;
@@ -51,11 +47,10 @@ export const SelectInput: React.FC<SelectInputProps> = ({
     setDropdownOpen(false);
   };
 
-  const handleChangeText = (text: string) => {
-    setInputValue(text);
-  };
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement, Element>) => {
+    const targetIsChildren = e.currentTarget.contains(e.relatedTarget);
+    if (targetIsChildren) return;
 
-  useOnClickOutside(dropdownRef, () => {
     setDropdownOpen(false);
 
     const findedOption = options.find(o => o.label === inputValue);
@@ -67,16 +62,16 @@ export const SelectInput: React.FC<SelectInputProps> = ({
     }
 
     setInputValue(value.label);
-  });
+  };
 
   useControlKeys(optionsRef);
 
   return (
-    <S.Wrapper ref={dropdownRef}>
+    <S.Wrapper onBlur={handleBlur}>
       <TextField
         {...props}
         value={inputValue}
-        onChange={handleChangeText}
+        onChange={setInputValue}
         icon={<S.DropdownIcon onClick={() => setDropdownOpen(true)} />}
         inputProps={{ onFocus: () => setDropdownOpen(true) }}
       >

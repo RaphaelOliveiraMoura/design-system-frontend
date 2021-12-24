@@ -8,7 +8,7 @@ import { dateIntervalMask } from 'services/mask';
 
 import { TextField, TextFieldProps } from '../textfield';
 
-import * as S from '../date/styles';
+import * as S from './styles';
 
 export const RangeDateInput: React.FC<TextFieldProps> = ({
   mask = dateIntervalMask,

@@ -59,7 +59,8 @@ export const unparseMoney = (
   const unusedCharacters = new RegExp(`[^\\d\\${delimiter}]`, 'gi');
   const sanitizedPositiveMoney = currency
     .replace(unusedCharacters, '')
-    .replace(delimiter, '.');
+    .replace(delimiter, '.')
+    .replace(new RegExp(`\\${delimiter}`, 'gi'), '');
 
   const numberOfSlash = currency.match(/-/gi)?.length || 0;
   const isNegative = numberOfSlash % 2 !== 0;

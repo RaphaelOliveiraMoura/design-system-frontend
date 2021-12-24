@@ -1,6 +1,4 @@
-import React, { createRef, useMemo, useRef, useState } from 'react';
-
-import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import React, { createRef, useMemo, useState } from 'react';
 
 import { requiredArrayValidator } from 'services/validation/validators';
 import { TextField, TextFieldProps } from '../textfield';
@@ -28,8 +26,6 @@ export const MultSelectInput: React.FC<MultSelectInputProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [dropdownIsOpen, setDropdownOpen] = useState(false);
-
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const matchOption = (option: Option) => {
     const findedOption = options.find(o => o.label === inputValue);
@@ -63,14 +59,13 @@ export const MultSelectInput: React.FC<MultSelectInputProps> = ({
     onChange([...draft]);
   };
 
-  const handleChangeText = (text: string) => {
-    setInputValue(text);
-  };
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement, Element>) => {
+    const targetIsChildren = e.currentTarget.contains(e.relatedTarget);
+    if (targetIsChildren) return;
 
-  useOnClickOutside(dropdownRef, () => {
     setDropdownOpen(false);
     setInputValue('');
-  });
+  };
 
   useControlKeys(optionsRef);
 
@@ -86,11 +81,11 @@ export const MultSelectInput: React.FC<MultSelectInputProps> = ({
   );
 
   return (
-    <S.Wrapper ref={dropdownRef}>
+    <S.Wrapper onBlur={handleBlur}>
       <TextField
         {...props}
         value={inputValue}
-        onChange={handleChangeText}
+        onChange={setInputValue}
         icon={<S.DropdownIcon onClick={() => setDropdownOpen(true)} />}
         inputProps={{ onFocus: () => setDropdownOpen(true) }}
         inputChildren={inputChildren}

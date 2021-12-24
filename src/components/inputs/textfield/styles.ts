@@ -3,20 +3,19 @@ import { sg } from 'styles/styleGuide';
 
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 
+export const Wrapper = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: ${sg.spacing.xxlarge};
+  font-size: ${sg.fontSize.medium};
+`;
+
 export const LabelText = styled.p`
   position: absolute;
   left: 0;
   top: 0;
   transform: translateY(-100%);
   padding-bottom: 4px;
-`;
-
-export const Wrapper = styled.div`
-  position: relative;
-  max-width: 400px;
-  width: 100%;
-  padding-top: ${sg.spacing.xxlarge};
-  font-size: ${sg.fontSize.medium};
 `;
 
 type InputLabelProps = {
@@ -55,7 +54,7 @@ export const Input = styled.input`
   outline: none;
   background: transparent;
   width: 100%;
-  height: 100%;
+  height: 34px;
   padding: 8px 8px;
 `;
 
@@ -84,7 +83,7 @@ export const InputRightSection = styled.div`
 `;
 
 export const IconWrapper = styled.div`
-  margin-left: 8px;
+  margin-left: 4px;
   display: flex;
   justify-content: center;
   align-items: center;

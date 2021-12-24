@@ -3,6 +3,11 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 
 export const Wrapper = styled.div`
   position: relative;
+  width: 100%;
+
+  label {
+    padding-right: 46px;
+  }
 `;
 
 export const CalendarWrapper = styled.div`

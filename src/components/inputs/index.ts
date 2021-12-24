@@ -5,3 +5,4 @@ export * from './select';
 export * from './mult-select';
 export * from './toggle';
 export * from './password';
+export * from './group';

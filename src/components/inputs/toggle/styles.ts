@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
 
 type ToggleContainerProps = {
   checked: boolean;
@@ -13,6 +17,7 @@ export const ToggleContainer = styled.div<ToggleContainerProps>`
   border: 1px solid #ddd;
   position: relative;
   cursor: pointer;
+  margin-top: 4px;
   background: ${props => (props.checked ? '#888' : '#07bc0c')};
 
   &:before {
