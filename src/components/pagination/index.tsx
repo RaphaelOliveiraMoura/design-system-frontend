@@ -2,21 +2,21 @@ import React from 'react';
 
 import * as S from './styles';
 
-export type PaginationPros = {
+export type PaginationProps = {
   currentPage: number;
   onChangePage: (page: number) => void;
   totalItems: number;
   itemsPerPage: number;
 };
 
-export const Pagination: React.FC<PaginationPros> = ({
+export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   onChangePage,
   totalItems,
   itemsPerPage
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const maxShowedPagesPerSide = 2;
+  const maxShowedPagesPerSide = 3;
   const separator = '...';
 
   const mappedPages = new Array(totalPages).fill(0).map((_, index, array) => {
@@ -39,7 +39,7 @@ export const Pagination: React.FC<PaginationPros> = ({
       {pages.map(page => {
         const isSeparator = page === separator;
 
-        if (isSeparator) return <span>{separator}</span>;
+        if (isSeparator) return <span key='separator'>{separator}</span>;
 
         return (
           <button
