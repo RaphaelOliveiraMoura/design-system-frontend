@@ -5,4 +5,4 @@ export enum TimezoneEnum {
 
 export type ToDate = (isoString?: string) => Date;
 
-export type ToIso = (date: Date) => string;
+export type ToIso = (date?: Date) => string;

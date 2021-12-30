@@ -19,4 +19,12 @@ describe('formatters', () => {
     expect(formatters.hours(date, timezone)).toBe('00:00');
     expect(formatters.dateHours(date, timezone)).toBe('01/01/2020 00:00');
   });
+
+  it('should test parsers', () => {
+    expect(formatters.parseDate('01/01/2020')).toBeInstanceOf(Date);
+
+    formatters
+      .parseRangeDate('01/01/2020 - 02/01/2020')
+      .forEach(date => expect(date).toBeInstanceOf(Date));
+  });
 });
