@@ -1,8 +1,9 @@
 import { requiredValidator } from '.';
 
-describe('RequiredValidator', () => {
-  type ArrayTestCases = [string, unknown, string | null][];
-  const testCases: ArrayTestCases = [
+describe('requiredValidator', () => {
+  type UseCases = [string, unknown, string | null][];
+
+  const useCases: UseCases = [
     ['null', null, 'Campo obrigatório'],
     ['empty string', '', 'Campo obrigatório'],
     ['undefined', undefined, 'Campo obrigatório'],
@@ -12,8 +13,8 @@ describe('RequiredValidator', () => {
     ['empty array', [], null]
   ];
 
-  testCases.forEach(([title, value, expectedError]) =>
-    it(`should test required fields : case(${title})`, () => {
+  useCases.forEach(([title, value, expectedError]) =>
+    it(`case: (${title})`, () => {
       const error = requiredValidator(value);
       expect(error).toStrictEqual(expectedError);
     })
