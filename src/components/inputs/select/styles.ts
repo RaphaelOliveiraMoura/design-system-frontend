@@ -51,4 +51,6 @@ export const NoOptions = styled.div`
   ${itemStyles}
   cursor: default;
   color: #666;
+  padding: 8px;
+  font-size: 14px;
 `;

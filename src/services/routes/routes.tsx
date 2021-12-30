@@ -2,9 +2,7 @@ import React from 'react';
 
 import { BrowserRouter, Route, Routes as Switch } from 'react-router-dom';
 
-import { PokemonDetailsPage } from 'pages/pokemon-details';
-import { PokemonsPage } from 'pages/pokemons';
-import { InputsPage } from 'pages/inputs';
+import { PokemonDetailsPage, PokemonsPage, InputsPage, TablePage } from 'pages';
 
 import { Routes } from '.';
 
@@ -17,6 +15,7 @@ export const AppRoutes: React.FC = () => (
         element={<PokemonDetailsPage />}
       />
       <Route path={Routes.INPUTS()} element={<InputsPage />} />
+      <Route path={Routes.TABLE()} element={<TablePage />} />
     </Switch>
   </BrowserRouter>
 );

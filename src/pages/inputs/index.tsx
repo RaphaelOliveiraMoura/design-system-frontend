@@ -89,7 +89,7 @@ export const InputsPage: React.FC = () => {
           />
         </InputGroup>
 
-        <InputGroup columns={{ default: '2fr 3fr 2fr' }}>
+        <InputGroup columns={{ default: '2fr 3fr' }}>
           <SelectInput
             label='Sexo'
             value={formData.sex}
@@ -112,6 +112,9 @@ export const InputsPage: React.FC = () => {
             ]}
             touched={formSubmited}
           />
+        </InputGroup>
+
+        <InputGroup columns={{}}>
           <ToggleInput
             label='Gostou do conteúdo'
             checked={formData.likeContent}
