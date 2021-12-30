@@ -1,5 +1,5 @@
 import { Pokemon } from 'models';
-import { httpRequest } from 'services/api';
+import { httpPokemonRequest } from 'services/http/pokemon';
 import { ListPokemons } from './types';
 
 type HttpPokemon = {
@@ -10,6 +10,7 @@ type HttpPokemon = {
 type HttpResult = {
   count: number;
   next: string;
+  previous?: string;
   results: HttpPokemon[];
 };
 
@@ -19,9 +20,11 @@ export const listPokemons: ListPokemons = async pagination => {
     offset: pagination.itemsPerPage * (pagination.page - 1)
   };
 
-  const url = 'https://pokeapi.co/api/v2/pokemon';
-
-  const response = await httpRequest<HttpResult>({ method: 'get', url, query });
+  const response = await httpPokemonRequest<HttpResult>({
+    method: 'get',
+    url: '/pokemon',
+    query
+  });
 
   const pokemons: Pokemon[] = response.data.results.map(pokemon => {
     const [matchedId] = pokemon.url.match(/\/\d+\//gi) || [];
@@ -30,5 +33,5 @@ export const listPokemons: ListPokemons = async pagination => {
     return { id, name: pokemon.name };
   });
 
-  return pokemons;
+  return { pokemons, total: response.data.count };
 };

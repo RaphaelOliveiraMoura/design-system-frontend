@@ -6,3 +6,5 @@ export type PaginationParams = {
 export type PaginationResult = {
   total: number;
 };
+
+export type Pagination = PaginationParams & PaginationResult;

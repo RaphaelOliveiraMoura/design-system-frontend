@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Masker } from 'services/mask/types';
 
 import { Validator } from 'services/validation';
 import { requiredValidator } from 'services/validation/validators';
@@ -8,11 +9,14 @@ import * as S from './styles';
 export type TextFieldProps = {
   label: string;
   placeholder?: string;
-  value?: string;
+  value: string;
   onChange: (value: string) => void;
+  touched?: boolean;
   validator?: Validator;
-  mask?: (value: string) => string;
-  hideLabel?: boolean;
+  mask?: Masker;
+  icon?: JSX.Element;
+  inputProps?: Partial<React.InputHTMLAttributes<HTMLInputElement>>;
+  inputChildren?: JSX.Element;
 };
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -20,17 +24,19 @@ export const TextField: React.FC<TextFieldProps> = ({
   placeholder,
   value,
   onChange,
+  touched,
   validator = requiredValidator,
-  mask = (valueToFormat: string) => valueToFormat,
-  hideLabel = false
+  mask = valueToFormat => valueToFormat,
+  icon = <></>,
+  children = <></>,
+  inputChildren = <></>,
+  inputProps = {}
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [wasTouched, setTouched] = useState(false);
+  const [inputWasTouched, setInputTouched] = useState(false);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const controlledComponent = value !== undefined;
+  const wasTouched = touched === false ? false : touched || inputWasTouched;
 
   const checkForErrors = useCallback(
     async (inputValue = '') => {
@@ -41,60 +47,68 @@ export const TextField: React.FC<TextFieldProps> = ({
   );
 
   useEffect(() => {
-    if (!controlledComponent) return;
     if (!wasTouched) return;
-
     checkForErrors(value);
-  }, [value]);
+  }, [value, checkForErrors, wasTouched]);
 
-  const handleChange = (inputValue: string) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
     const maskedValue = mask(inputValue);
-
-    if (controlledComponent) return onChange(maskedValue);
-
-    if (inputRef.current) inputRef.current.value = maskedValue;
-
-    checkForErrors(maskedValue);
     onChange(maskedValue);
+
+    if (inputProps.onChange) inputProps.onChange(e);
   };
 
-  const handleFocus = () => {
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement, Element>) => {
     setIsFocused(true);
+
+    if (inputProps.onFocus) inputProps.onFocus(e);
   };
 
-  const handleBlur = (inputValue: string) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    const inputValue = e.target.value;
     checkForErrors(inputValue);
     setIsFocused(false);
-    setTouched(true);
+    setInputTouched(true);
+
+    if (inputProps.onBlur) inputProps.onBlur(e);
   };
 
   return (
-    <S.Wrapper hideLabel={hideLabel}>
+    <S.Wrapper>
       <S.InputLabel isFocused={isFocused} hasError={wasTouched && !!error}>
         <S.LabelText>{label}</S.LabelText>
 
         <S.Input
-          ref={inputRef}
+          {...inputProps}
           value={value}
           placeholder={placeholder}
-          onChange={e => handleChange(e.target.value)}
+          onChange={handleChange}
           onFocus={handleFocus}
-          onBlur={e => handleBlur(e.target.value)}
+          onBlur={handleBlur}
           autoComplete='off'
           autoCorrect='off'
           spellCheck={false}
         />
 
-        {wasTouched && !error && (
-          <S.ValidIcon aria-label='ícone de sucesso' size='20' />
-        )}
+        {inputChildren}
 
-        {wasTouched && error && (
-          <S.InvalidIcon aria-label='ícone de erro' size='20' />
-        )}
+        <S.InputRightSection>
+          {wasTouched && !error && (
+            <S.ValidIcon aria-label='ícone de sucesso' size='20' />
+          )}
+
+          {wasTouched && error && (
+            <S.InvalidIcon aria-label='ícone de erro' size='20' title={error} />
+          )}
+
+          {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
+        </S.InputRightSection>
       </S.InputLabel>
 
-      {wasTouched && error && <S.ErrorText>{error}</S.ErrorText>}
+      {children}
+
+      {wasTouched && error && <S.ErrorText role='alert'>{error}</S.ErrorText>}
     </S.Wrapper>
   );
 };

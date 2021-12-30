@@ -1,14 +1,14 @@
 export const isAfter = (date: Date, dateToCompare: Date) =>
-  date.getTime() < dateToCompare.getTime();
-
-export const isAfterOrEqual = (date: Date, dateToCompare: Date) =>
-  date.getTime() <= dateToCompare.getTime();
-
-export const isBefore = (date: Date, dateToCompare: Date) =>
   date.getTime() > dateToCompare.getTime();
 
-export const isBeforeOrEqual = (date: Date, dateToCompare: Date) =>
+export const isAfterOrEqual = (date: Date, dateToCompare: Date) =>
   date.getTime() >= dateToCompare.getTime();
+
+export const isBefore = (date: Date, dateToCompare: Date) =>
+  date.getTime() < dateToCompare.getTime();
+
+export const isBeforeOrEqual = (date: Date, dateToCompare: Date) =>
+  date.getTime() <= dateToCompare.getTime();
 
 export const isBetween = (date: Date, initial: Date, final: Date) =>
   date.getTime() > initial.getTime() && date.getTime() < final.getTime();

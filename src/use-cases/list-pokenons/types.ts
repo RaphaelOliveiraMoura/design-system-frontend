@@ -1,3 +1,9 @@
-import { PaginationParams, Pokemon } from 'models';
+import { PaginationParams, PaginationResult, Pokemon } from 'models';
 
-export type ListPokemons = (pagination: PaginationParams) => Promise<Pokemon[]>;
+export type ListPokemonsResult = {
+  pokemons: Pokemon[];
+} & PaginationResult;
+
+export type ListPokemons = (
+  pagination: PaginationParams
+) => Promise<ListPokemonsResult>;
