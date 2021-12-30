@@ -16,7 +16,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   itemsPerPage
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const maxShowedPagesPerSide = 3;
+  const maxShowedPagesPerSide = 2;
   const separator = '...';
 
   const mappedPages = new Array(totalPages).fill(0).map((_, index, array) => {
@@ -36,10 +36,13 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <S.Container>
-      {pages.map(page => {
+      {pages.map((page, index) => {
         const isSeparator = page === separator;
 
-        if (isSeparator) return <span key='separator'>{separator}</span>;
+        if (isSeparator) {
+          const separatorKey = `separator-${index}`;
+          return <span key={separatorKey}>{separator}</span>;
+        }
 
         return (
           <button

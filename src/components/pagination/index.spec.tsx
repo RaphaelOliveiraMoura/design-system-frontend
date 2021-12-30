@@ -6,6 +6,7 @@ import { Pagination, PaginationProps } from '.';
 describe('<Pagination />', () => {
   const getButtons = () => screen.getAllByRole('button');
   const getSeparator = () => screen.queryByText('...');
+  const getAllSeparators = () => screen.queryAllByText('...');
 
   const BaseComponent: React.FC<Partial<PaginationProps>> = props => (
     <Pagination
@@ -28,8 +29,17 @@ describe('<Pagination />', () => {
   it('should render separator when many pages is available', () => {
     render(<BaseComponent totalItems={100} itemsPerPage={2} />);
 
-    expect(getButtons()).toHaveLength(5);
+    expect(getButtons()).toHaveLength(4);
     expect(getSeparator()).toBeInTheDocument();
+  });
+
+  it('should render two separators when many pages is available', () => {
+    render(
+      <BaseComponent totalItems={100} itemsPerPage={2} currentPage={20} />
+    );
+
+    expect(getButtons()).toHaveLength(7);
+    expect(getAllSeparators()).toHaveLength(2);
   });
 
   it('should call onChangePage when change', () => {

@@ -1,6 +1,6 @@
 import axios, { AxiosRequestHeaders } from 'axios';
 
-import { HttpRequest } from './types';
+import { HttpRequest } from '../../types';
 
 export const httpRequest: HttpRequest = async params => {
   const response = await axios({
