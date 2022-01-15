@@ -1,4 +1,4 @@
-import { HttpRequest } from '../../types';
+import { HttpRequest } from '../types';
 import { fetchApi } from './fetchApi';
 
 export const httpRequest: HttpRequest = async params => {

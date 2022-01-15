@@ -1,7 +1,7 @@
+import * as Http from 'services/http';
 import { httpPokemonRequest } from '.';
-import * as Http from '..';
 
-jest.mock('..');
+jest.mock('services/http');
 
 describe('httpPokemonRequest', () => {
   it('should inject pokemon base url on request', async () => {

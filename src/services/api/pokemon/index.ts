@@ -1,5 +1,5 @@
-import { HttpRequest, HttpParams } from '../types';
-import { httpRequest } from '..';
+import { HttpRequest, HttpParams } from 'services/http/types';
+import { httpRequest } from 'services/http';
 
 export const httpPokemonRequest: HttpRequest = params => {
   const baseUrl = 'https://pokeapi.co/api/v2';

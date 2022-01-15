@@ -1,5 +1,5 @@
 import { Pokemon } from 'models';
-import { httpPokemonRequest } from 'services/http/pokemon';
+import { httpPokemonRequest } from 'services/api/pokemon';
 import { ListPokemons } from './types';
 
 type HttpPokemon = {
