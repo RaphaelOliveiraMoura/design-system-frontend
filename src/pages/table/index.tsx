@@ -1,24 +1,11 @@
 import React from 'react';
 
-import { Table, Column, RowData } from 'components/table';
+import { Table } from 'components/table';
 import * as S from './styles';
-
-type DataExample = {
-  name: string;
-};
+import { useTablePage } from './hook';
 
 export const TablePage: React.FC = () => {
-  const columns: Column<DataExample>[] = [
-    { label: 'name', path: 'name', content: row => row.name }
-  ];
-
-  const data: DataExample[] = [
-    { name: 'Raphael' },
-    { name: 'Joaozin' },
-    { name: 'Josefino' }
-  ];
-
-  const rows: RowData<DataExample>[] = data.map(row => ({ rowData: row }));
+  const { rows, columns } = useTablePage();
 
   return (
     <S.Container>

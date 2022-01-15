@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   TextField,
   DateInput,
   RangeDateInput,
   SelectInput,
-  Option,
   MultSelectInput,
   ToggleInput,
   PasswordInput,
@@ -18,41 +17,11 @@ import {
 } from 'services/validation/validators';
 import { moneyInputMask } from 'services/mask';
 import * as S from './styles';
-
-type FormData = {
-  name: string;
-  birthDate: string;
-  accountCurrency: string;
-  rangeDate: string;
-  sex: Option;
-  colors: Option[];
-  likeContent: boolean;
-  password: string;
-  confirmPassword: string;
-};
+import { useInputsPage } from './hook';
 
 export const InputsPage: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    birthDate: '',
-    accountCurrency: '',
-    rangeDate: '',
-    sex: { value: '', label: '' },
-    colors: [],
-    likeContent: false,
-    password: '',
-    confirmPassword: ''
-  });
-
-  const [formSubmited, setFormSubmited] = useState<boolean | undefined>();
-
-  const handleChange = (key: keyof FormData) => (value: unknown) =>
-    setFormData(state => ({ ...state, [key]: value }));
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setFormSubmited(true);
-  };
+  const { formData, formSubmited, handleChange, handleSubmit } =
+    useInputsPage();
 
   return (
     <S.Container>

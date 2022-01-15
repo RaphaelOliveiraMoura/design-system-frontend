@@ -1,37 +1,9 @@
-import { DetailedPokemon } from 'models';
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Routes } from 'services/routes';
-import { toast } from 'services/toast';
+import React from 'react';
 
-import { getPokemonDetails } from 'use-cases/get-pokemon-details';
+import { usePokemonDetailsPage } from './hook';
 
 export const PokemonDetailsPage: React.FC = () => {
-  const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
-
-  const [pokemon, setPokemon] = useState<DetailedPokemon | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        if (!id) return;
-        setLoading(true);
-        const result = await getPokemonDetails({ id });
-        setPokemon(result);
-      } catch (error) {
-        toast.error({
-          title: 'Erro ao buscar detalhes do pokemon',
-          error: error as Error
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetch();
-  }, [id]);
+  const { pokemon, loading, handleBackPage } = usePokemonDetailsPage();
 
   if (loading) return <span>Carregando ...</span>;
   if (!pokemon)
@@ -42,7 +14,7 @@ export const PokemonDetailsPage: React.FC = () => {
       id: {pokemon.id}
       nome: {pokemon.name}
       tipo: {pokemon.types[0]}
-      <button type='button' onClick={() => navigate(Routes.POKEMONS_LIST())}>
+      <button type='button' onClick={handleBackPage}>
         Voltar para página inicial
       </button>
     </main>
